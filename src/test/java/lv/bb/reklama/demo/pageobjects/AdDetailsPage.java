@@ -20,6 +20,9 @@ public class AdDetailsPage extends BasePage {
     @FindBy(id = "favorites-link")
     private WebElement lnkFavourites;
     
+    @FindBy(css = "#content > p")
+    private WebElement txtAdBody;
+    
 	public AdDetailsPage scrollToAddRemoveFavouritesLink() {
 		function.waitForJStoLoad();
 		function.scrollElementIntoView(lnkFavouritesAdd);
@@ -34,5 +37,11 @@ public class AdDetailsPage extends BasePage {
 	public FavouritesPage clickFavouritesLink() {
 		function.clickElement(lnkFavourites);
         return new FavouritesPage(driver);
+	}
+	
+	public String getAdText() {
+		String text = txtAdBody.getText();
+		System.out.println("Ad title: " + text);
+		return text;
 	}
 }

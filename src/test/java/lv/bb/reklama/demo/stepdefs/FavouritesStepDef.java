@@ -33,7 +33,7 @@ public class FavouritesStepDef extends FunctionalTest {
 		super.tearDown();
 	}
 	
-	String title;
+	String adText;
 	int numberOfFavourites;
 	
 	@Given("I am on a main page")
@@ -64,8 +64,14 @@ public class FavouritesStepDef extends FunctionalTest {
 	@And("click on ad number {int}")
 	public void click_on_add_number_int(int adNumber) {
 		CarListPage carListPage = new CarListPage(driver);
-		title = carListPage.getAdTitle(adNumber);
-		carListPage.clickOnAd(adNumber);
+		AdDetailsPage adDetailsPage = carListPage.clickOnAd(adNumber);
+		String text = adDetailsPage.getAdText();
+		if (text.length() > 100) {
+			adText = text.substring(4, 100);
+		}
+		else {
+			adText = text;
+		}
 	}
 	
 	@And("I scroll down to see add/remove to/from favourites button")
@@ -92,9 +98,9 @@ public class FavouritesStepDef extends FunctionalTest {
 	}
 	
 	@And("ad appears in favourites first in list")
-	public void ad_appears_in_favourites_int_st_in_list() {
+	public void ad_appears_in_favourites_first_in_list() {
 		FavouritesPage favouritesPage = new AdDetailsPage(driver).clickFavouritesLink();
-		assertTrue(favouritesPage.getFirstElementText().contains(title.substring(0, title.length()-4)));
+		assertTrue(favouritesPage.getFirstElementText().contains(adText));
 	}
 	
 	@When("I open extended search")
